@@ -1,10 +1,544 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Mi pagina de prueba</title>
-  </head>
-  <body>
-    <img src="images/firefox-icon.png" alt="Mi imagen de prueba" />
-  </body>
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skytrix GPS - Tu Mundo Bajo Control</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- AOS (Animate On Scroll) Library CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Favicon (Logo) -->
+    <link rel="icon" href="http://googleusercontent.com/file_content/4" type="image/png">
+
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --skytrix-bg: #000414;
+            --skytrix-primary-deep: #028092;
+            --skytrix-primary-bright: #00d6d7;
+            --skytrix-text: #ffffff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--skytrix-bg);
+            color: var(--skytrix-text);
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, var(--skytrix-primary-deep), var(--skytrix-primary-bright));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(90deg, var(--skytrix-primary-deep), var(--skytrix-primary-bright));
+        }
+        
+        .hover\:gradient-bg-rev:hover {
+            background: linear-gradient(90deg, var(--skytrix-primary-bright), var(--skytrix-primary-deep));
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .hero-bg {
+            position: relative;
+            overflow: hidden;
+            background-color: var(--skytrix-bg);
+        }
+
+        /* Animated Blobs */
+        @keyframes moveBlob1 {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(40px, -60px) scale(1.1); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes moveBlob2 {
+            0% { transform: translate(-50px, 70px) scale(1.1); }
+            50% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-50px, 70px) scale(1.1); }
+        }
+
+        .hero-bg::before, .hero-bg::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(150px);
+            z-index: 0;
+        }
+
+        .hero-bg::before {
+            background: var(--skytrix-primary-deep);
+            top: -100px;
+            left: -100px;
+            opacity: 0.5;
+            animation: moveBlob1 20s infinite ease-in-out;
+        }
+
+        .hero-bg::after {
+            background: var(--skytrix-primary-bright);
+            bottom: -100px;
+            right: -100px;
+            opacity: 0.4;
+            animation: moveBlob2 20s infinite ease-in-out alternate;
+        }
+        
+        /* Fix for dropdown option visibility */
+        select option {
+            background: #0f172a; /* Dark blue background for options */
+            color: #ffffff; /* White text for options */
+        }
+    </style>
+</head>
+<body class="bg-skytrix-dark-blue">
+
+    <!-- ===== Header / Navigation ===== -->
+    <header id="header" class="bg-black/20 backdrop-blur-sm fixed top-0 left-0 w-full z-50 transition-all duration-300">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="flex items-center space-x-2">
+                <img src="http://googleusercontent.com/file_content/4" alt="Logo de Skytrix GPS" class="h-10 w-10 object-contain">
+                <span class="text-2xl font-bold text-white">Skytrix <span class="gradient-text">GPS</span></span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#soluciones" class="text-gray-300 hover:text-white font-medium transition-colors">Soluciones</a>
+                <a href="#caracteristicas" class="text-gray-300 hover:text-white font-medium transition-colors">Características</a>
+                <a href="#porque-elegirnos" class="text-gray-300 hover:text-white font-medium transition-colors">¿Por qué elegirnos?</a>
+                <a href="#contacto" class="text-gray-300 hover:text-white font-medium transition-colors">Contacto</a>
+            </div>
+
+            <!-- Login Button -->
+            <a href="#" class="hidden md:block gradient-bg text-white font-bold py-2 px-5 rounded-lg hover:gradient-bg-rev transition-all duration-300 transform hover:scale-105">
+                Iniciar Sesión
+            </a>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-black/50 backdrop-blur-sm">
+            <a href="#soluciones" class="block py-3 px-6 text-sm text-gray-300 hover:bg-white/10">Soluciones</a>
+            <a href="#caracteristicas" class="block py-3 px-6 text-sm text-gray-300 hover:bg-white/10">Características</a>
+            <a href="#porque-elegirnos" class="block py-3 px-6 text-sm text-gray-300 hover:bg-white/10">¿Por qué elegirnos?</a>
+            <a href="#contacto" class="block py-3 px-6 text-sm text-gray-300 hover:bg-white/10">Contacto</a>
+            <div class="px-6 py-4">
+                 <a href="#" class="block text-center gradient-bg text-white font-bold py-2 px-5 rounded-lg hover:gradient-bg-rev transition-all duration-300">
+                    Iniciar Sesión
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- ===== Hero Section ===== -->
+        <section class="hero-bg relative min-h-screen flex items-center justify-center text-center">
+            <div class="relative z-10 container mx-auto px-6 text-white">
+                <p class="text-2xl md:text-3xl font-medium text-white mb-2 tracking-wide" data-aos="fade-down">
+                    Tu mundo bajo control
+                </p>
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-black leading-tight mb-4 gradient-text" data-aos="fade-down" data-aos-delay="200">
+                    <span class="block">SKYTRIX</span>
+                    <span class="block">GPS</span>
+                </h1>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto text-slate-300 mb-8" data-aos="fade-up" data-aos-delay="400">
+                    La más avanzada tecnología de rastreo satelital y telecomunicaciones para proteger lo que más te importa.
+                </p>
+                <a href="#soluciones" class="gradient-bg text-white font-bold py-3 px-8 rounded-lg text-lg hover:gradient-bg-rev transition-all duration-300 transform hover:scale-105 inline-block shadow-lg shadow-[#00d6d7]/30" data-aos="fade-up" data-aos-delay="600">
+                    Explorar Soluciones
+                </a>
+            </div>
+        </section>
+
+        <!-- ===== Solutions Section ===== -->
+        <section id="soluciones" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12" data-aos="fade-up">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Soluciones Integrales de Rastreo</h2>
+                    <p class="text-slate-400 mt-2">Diseñadas para tu tranquilidad, en todo momento y lugar.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Card -->
+                    <div class="glass-card rounded-xl p-8 text-center transition-all duration-300 transform hover:-translate-y-2 hover:border-[#00d6d7]/50" data-aos="fade-up" data-aos-delay="100">
+                        <div class="inline-block p-4 bg-black/20 rounded-full mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#00d6d7]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.125-1.274-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.125-1.274-.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg></div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Skytrix for Family</h3>
+                        <p class="text-slate-400">Mantén a tus seres queridos seguros con monitoreo discreto, geocercas y botón de pánico SOS.</p>
+                    </div>
+                     <!-- Card -->
+                    <div class="glass-card rounded-xl p-8 text-center transition-all duration-300 transform hover:-translate-y-2 hover:border-[#00d6d7]/50" data-aos="fade-up" data-aos-delay="200">
+                        <div class="inline-block p-4 bg-black/20 rounded-full mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#00d6d7]" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" /></svg></div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Skytrix for Pets</h3>
+                        <p class="text-slate-400">Localiza a tu mascota en tiempo real. Collares resistentes con batería de larga duración.</p>
+                    </div>
+                     <!-- Card -->
+                    <div class="glass-card rounded-xl p-8 text-center transition-all duration-300 transform hover:-translate-y-2 hover:border-[#00d6d7]/50" data-aos="fade-up" data-aos-delay="300">
+                        <div class="inline-block p-4 bg-black/20 rounded-full mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#00d6d7]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10l2-2h8a1 1 0 001-1zM21 12h-6" /></svg></div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Skytrix for Fleet</h3>
+                        <p class="text-slate-400">Optimiza rutas, reduce costos y protege tu inversión con nuestra plataforma de gestión de flotas.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== Features Section (Alternating Grid Design) ===== -->
+        <section id="caracteristicas" class="py-20 overflow-hidden">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-20" data-aos="fade-up">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Plataforma Robusta, Control <span class="gradient-text">Intuitivo</span></h2>
+                    <p class="text-slate-400 mt-2">Descubre las herramientas que te dan el poder de proteger lo que más importa.</p>
+                </div>
+                
+                <div class="space-y-24">
+                    <!-- Feature 1: Rastreo -->
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div data-aos="fade-right">
+                            <h3 class="text-3xl font-bold text-white mb-4">Visualiza todo en <span class="gradient-text">tiempo real</span></h3>
+                            <p class="text-slate-300 mb-6">Con actualizaciones cada 5 segundos, sabrás la ubicación exacta de tus vehículos, activos o seres queridos. Nuestra tecnología de alta precisión te da la confianza de tener la información más reciente al instante.</p>
+                            <a href="#contacto" class="font-semibold text-[#00d6d7] hover:text-white transition">Solicitar una demo &rarr;</a>
+                        </div>
+                        <div class="glass-card p-4 rounded-xl" data-aos="fade-left">
+                            <img src="https://images.unsplash.com/photo-1583325958573-489927545788?q=80&w=1887&auto=format&fit=crop" alt="[Mapa con un punto de localización GPS]" class="rounded-lg shadow-lg w-full h-80 object-cover">
+                        </div>
+                    </div>
+
+                    <!-- Feature 2: Bloqueo -->
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div class="md:order-last" data-aos="fade-left">
+                            <h3 class="text-3xl font-bold text-white mb-4">Inmoviliza tu vehículo <span class="gradient-text">al instante</span></h3>
+                            <p class="text-slate-300 mb-6">En caso de robo o uso no autorizado, puedes apagar el motor de tu vehículo de forma remota desde nuestra aplicación. Una herramienta poderosa para recuperar tus activos y garantizar la seguridad.</p>
+                             <a href="#contacto" class="font-semibold text-[#00d6d7] hover:text-white transition">Más sobre seguridad &rarr;</a>
+                        </div>
+                        <div class="glass-card p-4 rounded-xl" data-aos="fade-right">
+                            <img src="https://images.unsplash.com/photo-1610499418380-7705d9785469?q=80&w=1887&auto=format&fit=crop" alt="[Persona usando un celular para interactuar con su auto]" class="rounded-lg shadow-lg w-full h-80 object-cover">
+                        </div>
+                    </div>
+
+                    <!-- Feature 3: Historial -->
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div data-aos="fade-right">
+                            <h3 class="text-3xl font-bold text-white mb-4">Analiza cada <span class="gradient-text">movimiento</span></h3>
+                            <p class="text-slate-300 mb-6">Accede a un historial detallado de rutas, paradas, y velocidades de hasta 180 días. Optimiza la logística de tu flota o simplemente revisa los trayectos de tus seres queridos para mayor tranquilidad.</p>
+                            <a href="#contacto" class="font-semibold text-[#00d6d7] hover:text-white transition">Ver planes de flota &rarr;</a>
+                        </div>
+                        <div class="glass-card p-4 rounded-xl" data-aos="fade-left">
+                             <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=2070&auto=format&fit=crop" alt="[Carretera con líneas de ruta superpuestas]" class="rounded-lg shadow-lg w-full h-80 object-cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ===== Why Choose Us Section ===== -->
+        <section id="porque-elegirnos" class="py-20">
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-12" data-aos="fade-up">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Tu Confianza es Nuestra Misión</h2>
+                    <p class="text-slate-400 mt-2">Combinamos tecnología de punta con un servicio al cliente excepcional.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Stat Card -->
+                    <div class="glass-card p-6 rounded-lg text-center" data-aos="zoom-in" data-aos-delay="100">
+                        <h3 class="text-5xl font-extrabold mb-2 gradient-text">90%</h3>
+                        <h4 class="font-semibold text-white text-lg">Tasa de Recuperación</h4>
+                    </div>
+                    <!-- Stat Card -->
+                    <div class="glass-card p-6 rounded-lg text-center" data-aos="zoom-in" data-aos-delay="200">
+                        <h3 class="text-5xl font-extrabold mb-2 gradient-text">4.1 ★</h3>
+                        <h4 class="font-semibold text-white text-lg">App Móvil Premium</h4>
+                    </div>
+                    <!-- Stat Card -->
+                    <div class="glass-card p-6 rounded-lg text-center" data-aos="zoom-in" data-aos-delay="300">
+                        <h3 class="text-5xl font-extrabold mb-2 gradient-text">3m</h3>
+                        <h4 class="font-semibold text-white text-lg">Máxima Precisión</h4>
+                    </div>
+                     <!-- Stat Card -->
+                     <div class="glass-card p-6 rounded-lg text-center" data-aos="zoom-in" data-aos-delay="400">
+                        <h3 class="text-5xl font-extrabold mb-2 gradient-text">✓</h3>
+                        <h4 class="font-semibold text-white text-lg">Soporte Especializado</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ===== Contact Section ===== -->
+        <section id="contacto" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="glass-card rounded-xl p-8 md:p-12 max-w-4xl mx-auto" data-aos="fade-up">
+                    <div class="text-center">
+                        <h2 class="text-3xl md:text-4xl font-bold text-white">¿Listo para tomar el control?</h2>
+                        <p class="text-slate-400 mt-2 mb-8">Contacta a nuestro especialista y recibe una asesoría personalizada sin costo.</p>
+                    </div>
+                    <form id="contactForm">
+                        <div id="form-content">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <input type="text" id="nombre" name="Nombre" placeholder="Tu Nombre" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 ring-[#00d6d7]">
+                                <input type="email" id="correo" name="Correo" placeholder="Tu Correo Electrónico" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 ring-[#00d6d7]">
+                            </div>
+                            <div class="mb-4">
+                                <textarea id="mensaje" name="Mensaje" placeholder="Cuéntanos sobre tu necesidad..." rows="4" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 ring-[#00d6d7]"></textarea>
+                            </div>
+                            <div class="mb-4">
+                                 <select id="packageSelect" name="Paquete_de_Interes" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 ring-[#00d6d7]">
+                                    <option value="">-- Selecciona un paquete de interés --</option>
+                                    <option value="family">Skytrix for Family</option>
+                                    <option value="fleet">Skytrix for Fleet</option>
+                                    <option value="pets">Skytrix for Pets</option>
+                                </select>
+                            </div>
+
+                            <!-- Conditional Fields -->
+                            <div id="family-input" class="hidden mb-4">
+                                <label class="block text-slate-300 mb-2">Para darte la tranquilidad que mereces, ¿cuántos miembros de tu familia te gustaría proteger?</label>
+                                <input type="number" id="familyCount" name="Miembros_Familia" placeholder="Ej: 2" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 ring-[#00d6d7]">
+                            </div>
+                            <div id="fleet-input" class="hidden mb-4">
+                                 <label class="block text-slate-300 mb-2">Para optimizar tu operación, ¿cuántos vehículos de tu flota deseas asegurar y monitorear?</label>
+                                <input type="number" id="fleetCount" name="Numero_de_Vehiculos" placeholder="Ej: 5" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 ring-[#00d6d7]">
+                            </div>
+                             <div id="pets-input" class="hidden mb-4">
+                                <label class="block text-slate-300 mb-2">Para que sus aventuras siempre tengan un feliz retorno a casa, ¿a cuántos de tus compañeros peludos quieres mantener seguros en sus paseos?</label>
+                                <input type="number" id="petsCount" name="Numero_de_Mascotas" placeholder="Ej: 1" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 ring-[#00d6d7]">
+                            </div>
+
+                            <button id="submitButton" type="submit" class="w-full gradient-bg text-white font-bold py-3 px-6 rounded-lg transition-all duration-300">
+                                Solicitar Información
+                            </button>
+                        </div>
+                        <div id="form-feedback" class="hidden text-center mt-4">
+                            <p class="text-lg text-white"></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== Footer ===== -->
+    <footer class="border-t border-white/10">
+        <div class="container mx-auto px-6 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-slate-400">&copy; 2025 Skytrix GPS. Todos los derechos reservados.</p>
+                    <p class="text-slate-500 text-sm">Cuernavaca, Morelos, México.</p>
+                </div>
+                <!-- Social Media Icons -->
+                <div class="text-center md:text-right">
+                    <p class="text-slate-400 mb-2 font-medium">@skytrix.gps</p>
+                    <div class="flex justify-center md:justify-end space-x-4">
+                        <a href="https://www.facebook.com/skytrix.gps" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-[#00d6d7]"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg></a>
+                        <a href="https://www.instagram.com/skytrix.gps/" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-[#00d6d7]"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.013-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465 2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.08 2.525c.636-.247 1.363-.416 2.427-.465C9.53 2.013 9.884 2 12.315 2zM12 7a5 5 0 100 10 5 5 0 000-10zm0 8a3 3 0 110-6 3 3 0 010 6zm6.406-11.845a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5z" clip-rule="evenodd" /></svg></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS (Animate On Scroll) Library JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = JSON.parse(__firebase_config);
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // --- All page logic will be initialized after authentication ---
+        
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in.
+                console.log("Firebase Auth Ready. User:", user.uid);
+                initializePageLogic();
+            } else {
+                // User is signed out.
+                console.log("User is not signed in.");
+                // Optionally disable form if auth fails
+                const submitButton = document.getElementById('submitButton');
+                submitButton.disabled = true;
+                submitButton.textContent = 'Error de Autenticación';
+                submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        });
+
+        // Handle sign-in process
+        (async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Firebase sign-in error:", error);
+            }
+        })();
+
+        function initializePageLogic() {
+            // Initialize AOS
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 50,
+            });
+
+            // Mobile Menu
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            mobileMenu.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A') {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+
+            // Contact Form Logic
+            const contactForm = document.getElementById('contactForm');
+            const formContent = document.getElementById('form-content');
+            const formFeedback = document.getElementById('form-feedback');
+            const nameInput = document.getElementById('nombre');
+            const emailInput = document.getElementById('correo');
+            const messageInput = document.getElementById('mensaje');
+            const packageSelect = document.getElementById('packageSelect');
+            const familyInputContainer = document.getElementById('family-input');
+            const fleetInputContainer = document.getElementById('fleet-input');
+            const petsInputContainer = document.getElementById('pets-input');
+            const familyCountInput = document.getElementById('familyCount');
+            const fleetCountInput = document.getElementById('fleetCount');
+            const petsCountInput = document.getElementById('petsCount');
+            const submitButton = document.getElementById('submitButton');
+
+            const validateForm = () => {
+                let isValid = true;
+
+                if (nameInput.value.trim() === '' || emailInput.value.trim() === '' || messageInput.value.trim() === '') {
+                    isValid = false;
+                }
+
+                const selectedPackage = packageSelect.value;
+                if (selectedPackage === '') {
+                    isValid = false;
+                }
+
+                if (selectedPackage === 'family' && (familyCountInput.value.trim() === '' || parseInt(familyCountInput.value) <= 0)) {
+                    isValid = false;
+                }
+                if (selectedPackage === 'fleet' && (fleetCountInput.value.trim() === '' || parseInt(fleetCountInput.value) <= 0)) {
+                    isValid = false;
+                }
+                if (selectedPackage === 'pets' && (petsCountInput.value.trim() === '' || parseInt(petsCountInput.value) <= 0)) {
+                    isValid = false;
+                }
+
+                if (isValid) {
+                    submitButton.disabled = false;
+                    submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                    submitButton.classList.add('hover:gradient-bg-rev', 'transform', 'hover:scale-105');
+                } else {
+                    submitButton.disabled = true;
+                    submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+                    submitButton.classList.remove('hover:gradient-bg-rev', 'transform', 'hover:scale-105');
+                }
+            };
+
+            [nameInput, emailInput, messageInput, packageSelect, familyCountInput, fleetCountInput, petsCountInput].forEach(input => {
+                input.addEventListener('input', validateForm);
+            });
+
+            packageSelect.addEventListener('change', function() {
+                familyInputContainer.classList.add('hidden');
+                fleetInputContainer.classList.add('hidden');
+                petsInputContainer.classList.add('hidden');
+
+                if (this.value === 'family') {
+                    familyInputContainer.classList.remove('hidden');
+                } else if (this.value === 'fleet') {
+                    fleetInputContainer.classList.remove('hidden');
+                } else if (this.value === 'pets') {
+                    petsInputContainer.classList.remove('hidden');
+                }
+                validateForm();
+            });
+
+            contactForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                
+                submitButton.disabled = true;
+                submitButton.textContent = 'Enviando...';
+
+                const leadData = {
+                    nombre: nameInput.value,
+                    correo: emailInput.value,
+                    mensaje: messageInput.value,
+                    paquete: packageSelect.options[packageSelect.selectedIndex].text,
+                    timestamp: serverTimestamp()
+                };
+
+                if (packageSelect.value === 'family') {
+                    leadData.dispositivos = parseInt(familyCountInput.value);
+                }
+                if (packageSelect.value === 'fleet') {
+                    leadData.dispositivos = parseInt(fleetCountInput.value);
+                }
+                if (packageSelect.value === 'pets') {
+                    leadData.dispositivos = parseInt(petsCountInput.value);
+                }
+
+                try {
+                    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                    const leadsCollection = collection(db, `/artifacts/${appId}/public/data/leads`);
+                    await addDoc(leadsCollection, leadData);
+                    
+                    formContent.classList.add('hidden');
+                    formFeedback.classList.remove('hidden');
+                    formFeedback.querySelector('p').textContent = '¡Gracias! Hemos recibido tu información y te contactaremos pronto.';
+
+                } catch (error) {
+                    console.error("Error adding document: ", error);
+                    formFeedback.classList.remove('hidden');
+                    formFeedback.querySelector('p').textContent = 'Hubo un error al enviar tu mensaje. Por favor, inténtalo de nuevo.';
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Solicitar Información';
+                }
+            });
+
+            // Initial validation check on page load
+            validateForm();
+        }
+    </script>
+</body>
 </html>
