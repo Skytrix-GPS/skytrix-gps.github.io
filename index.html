@@ -128,7 +128,7 @@
             </div>
 
             <!-- Login Button -->
-            <a href="#" class="hidden md:block gradient-bg text-white font-bold py-2 px-5 rounded-lg hover:gradient-bg-rev transition-all duration-300 transform hover:scale-105">
+            <a href="https://micodus.net" target="_blank" rel="noopener noreferrer" class="hidden md:block gradient-bg text-white font-bold py-2 px-5 rounded-lg hover:gradient-bg-rev transition-all duration-300 transform hover:scale-105">
                 Iniciar Sesión
             </a>
             
@@ -145,7 +145,7 @@
             <a href="#porque-elegirnos" class="block py-3 px-6 text-sm text-gray-300 hover:bg-white/10">¿Por qué elegirnos?</a>
             <a href="#contacto" class="block py-3 px-6 text-sm text-gray-300 hover:bg-white/10">Contacto</a>
             <div class="px-6 py-4">
-                 <a href="#" class="block text-center gradient-bg text-white font-bold py-2 px-5 rounded-lg hover:gradient-bg-rev transition-all duration-300">
+                 <a href="https://micodus.net" target="_blank" rel="noopener noreferrer" class="block text-center gradient-bg text-white font-bold py-2 px-5 rounded-lg hover:gradient-bg-rev transition-all duration-300">
                     Iniciar Sesión
                 </a>
             </div>
@@ -270,8 +270,8 @@
                     </div>
                     <!-- Stat Card -->
                     <div class="glass-card p-6 rounded-lg text-center" data-aos="zoom-in" data-aos-delay="300">
-                        <h3 class="text-5xl font-extrabold mb-2 gradient-text">3m</h3>
-                        <h4 class="font-semibold text-white text-lg">Máxima Precisión</h4>
+                        <h3 class="text-5xl font-extrabold mb-2 gradient-text">$</h3>
+                        <h4 class="font-semibold text-white text-lg">Costos Competitivos</h4>
                     </div>
                      <!-- Stat Card -->
                      <div class="glass-card p-6 rounded-lg text-center" data-aos="zoom-in" data-aos-delay="400">
@@ -340,7 +340,7 @@
         <div class="container mx-auto px-6 py-8">
             <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
                 <div class="mb-4 md:mb-0">
-                    <p class="text-slate-400">&copy; 2025 Skytrix GPS. Todos los derechos reservados.</p>
+                    <p class="text-slate-400"><button id="masterLoginTrigger" class="cursor-pointer">&copy;</button> 2025 Skytrix GPS. Todos los derechos reservados.</p>
                     <p class="text-slate-500 text-sm">Cuernavaca, Morelos, México.</p>
                 </div>
                 <!-- Social Media Icons -->
@@ -354,6 +354,24 @@
             </div>
         </div>
     </footer>
+
+    <!-- Master Login Modal -->
+    <div id="masterLoginModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="glass-card rounded-xl p-8 max-w-sm w-full relative" data-aos="zoom-in">
+            <button id="closeModalButton" class="absolute top-4 right-4 text-slate-400 hover:text-white">&times;</button>
+            <h2 class="text-2xl font-bold text-center text-white mb-6">Acceso Master</h2>
+            <form id="masterLoginForm">
+                <div class="space-y-4">
+                    <input type="text" id="masterUser" placeholder="Usuario" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 ring-[#00d6d7]">
+                    <input type="password" id="masterPass" placeholder="Password" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 ring-[#00d6d7]">
+                    <p id="loginError" class="text-red-500 text-sm text-center hidden"></p>
+                    <button type="submit" class="w-full gradient-bg text-white font-bold py-3 px-6 rounded-lg hover:gradient-bg-rev transition-all duration-300 transform hover:scale-105">
+                        Acceder
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- AOS (Animate On Scroll) Library JS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -538,6 +556,38 @@
 
             // Initial validation check on page load
             validateForm();
+
+            // Master Login Modal Logic
+            const masterLoginTrigger = document.getElementById('masterLoginTrigger');
+            const masterLoginModal = document.getElementById('masterLoginModal');
+            const closeModalButton = document.getElementById('closeModalButton');
+            const masterLoginForm = document.getElementById('masterLoginForm');
+            const masterUser = document.getElementById('masterUser');
+            const masterPass = document.getElementById('masterPass');
+            const loginError = document.getElementById('loginError');
+
+            masterLoginTrigger.addEventListener('click', () => {
+                masterLoginModal.classList.remove('hidden');
+            });
+
+            closeModalButton.addEventListener('click', () => {
+                masterLoginModal.classList.add('hidden');
+                loginError.classList.add('hidden');
+                masterLoginForm.reset();
+            });
+
+            masterLoginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const user = masterUser.value;
+                const pass = masterPass.value;
+
+                if (user === 'ADMASTER' && pass === 'SKX.HINDER2011Ñ') {
+                    window.open('https://g.co/gemini/share/990455f108db', '_blank');
+                } else {
+                    loginError.textContent = 'Usuario o contraseña incorrectos.';
+                    loginError.classList.remove('hidden');
+                }
+            });
         }
     </script>
 </body>
